@@ -10,9 +10,9 @@ void main() {
   final BScores = examScores.where((element) => element >= 80 && element <= 90).toList();
   print("B grades: $BScores");
 
-  final surface = Surface();
+  final surface = Surface(onTouch: (x, y) => print('($x, $y)'));
 
-  surface.onTouch =(x, y) =>  print("$x and $y");
+  //surface.onTouch =(x, y) =>  print("$x and $y");
 
   surface.touch(202.3, 134.0);
 }
@@ -23,13 +23,13 @@ void main() {
 /// in Surface create a method named touch which takes x and y coordinates and then internally calls onTouch
 /// in main create an instance of surface and pass in an anonymous function that prints the x and y coordinates 
 /// in main call touch where x is 202.3 and y is 134.0
-class Surface {
-
-  TouchHandler?  onTouch;
-
-  void touch(double x, double y) {
-    onTouch!(x, y);
-  }
-}
 
 typedef TouchHandler =  void Function(double x, double y);
+
+class Surface {
+  Surface({required this.onTouch});
+
+  final TouchHandler onTouch;
+
+  void touch(double x, double y) => onTouch(x, y);
+}
